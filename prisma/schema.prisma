@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// id = primary key,autoincrement() = MySQL khud number badhata rahega, Har user ka unique id
+//Ek user ke multiple jobs ho sakte hain
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(WORKER)
+
+  jobs      Job[]
+  applications Application[]
+
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  OWNER
+  WORKER
+}
+
+
+//Har job ek user ne post ki hogi
+  //ownerId = User ka id
+  //This is foreign key relation
+model Job {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  skill       String
+  budget      Int
+  status      JobStatus @default(OPEN)
+
+  ownerId Int
+  owner   User @relation(fields: [ownerId], references: [id])
+  applications Application[]
+  createdAt DateTime @default(now())
+}
+
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Application {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  jobId Int
+  job   Job @relation(fields: [jobId], references: [id])
+
+  answers       String?   // screening answers (JSON / text)
+  portfolioLink String?   // previous work link
+
+  status ApplicationStatus @default(INTERESTED)
+
+  createdAt DateTime @default(now())
+}
+
+enum ApplicationStatus {
+  INTERESTED
+  SELECTED
+  REJECTED
+  COMPLETED
+  FAILED
+}
