@@ -5,7 +5,7 @@ const authenticate = require("./middleware/auth.middleware");
 const authorize = require("./middleware/role.middleware");
 
 
-console.log("🔥 THIS INDEX.JS IS RUNNING");
+console.log(" THIS INDEX.JS IS RUNNING");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -38,7 +38,7 @@ app.post(
         description,
         skill,
         budget,
-        ownerId: req.user.userId, // ✅ AUTH BASED
+        ownerId: req.user.userId, //  AUTH BASED
       },
     });
 
