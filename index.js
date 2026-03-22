@@ -18,7 +18,7 @@ app.use(express.json());
 
 // test route
 app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
+  res.send("Server is running ");
 });
 
 app.post(
