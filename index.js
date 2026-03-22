@@ -167,7 +167,7 @@ app.post(
       const jobId = parseInt(req.params.jobId);
       const { answers, portfolioLink } = req.body;
   
-      const userId = req.user.userId; // ✅ auth se aaya
+      const userId = req.user.userId; //  auth se aaya
   
       const job = await prisma.job.findUnique({
         where: { id: jobId },
